@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <title> Ember Stash </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/bootstrap-datepicker.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/css/datepicker.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/1.13.5/ember.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/1.13.5/ember-template-compiler.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/1.13.5/ember.debug.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.13.7/ember-data.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0-rc.3/handlebars.js"></script>
+
+        <script src="app.js"></script>
+    </head>
+    <body>
+      <script type="text/x-handlebars" data-template-name="application">
+        <div class="container">
+          {{outlet}}
+        </div>
+      </script>
+
+      <script type="text/x-handlebars" data-template-name="reviews">
+        <h2 id="title">My Stash Pull Requests</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>
+                header
+              </th>
+              <th>
+                header
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                column
+              </td>
+              <td>
+                column
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </script>
+
+      <script type="text/x-handlebars" data-template-name="index">
+        This is a functioning ember app. This template should not appear normally.
+        <br/>
+        {{#link-to 'reviews'}}Go to my damn reviews already!{{/link-to}}
+      </script>
+    </body>
+</html>
