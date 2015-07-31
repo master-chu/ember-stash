@@ -6,9 +6,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/bootstrap-datepicker.js"></script>
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/bootstrap-datepicker.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/css/datepicker.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script> -->
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/1.13.5/ember.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/1.13.5/ember-template-compiler.js"></script>
@@ -25,28 +25,27 @@
         </div>
       </script>
 
-      <script type="text/x-handlebars" data-template-name="reviews">
+      <script type="text/x-handlebars" data-template-name="pull-requests">
         <h2 id="title">My Stash Pull Requests</h2>
         <table class="table table-striped">
           <thead>
             <tr>
               <th>
-                header
+                Repository
               </th>
               <th>
-                header
+                Title
+              </th>
+              <th>
+                Author
+              </th>
+              <th>
+                Reviewers
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                column
-              </td>
-              <td>
-                column
-              </td>
-            </tr>
+            Well, it didn't explode...
           </tbody>
         </table>
       </script>
@@ -54,7 +53,7 @@
       <script type="text/x-handlebars" data-template-name="index">
         This is a functioning ember app. This template should not appear normally.
         <br/>
-        {{#link-to 'reviews'}}Go to my damn reviews already!{{/link-to}}
+        {{#link-to 'pull-requests'}}Go to my damn reviews already!{{/link-to}}
       </script>
     </body>
 </html>
