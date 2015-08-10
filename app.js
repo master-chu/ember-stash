@@ -1,50 +1,24 @@
 App = Ember.Application.create({});
-// App.ApplicationAdapter = DS.RESTAdapter.extend({
-//   // host: 'https://stash.zipcar.com',
-//   // ajax: function(url, method, hash) {
-//   //   hash.crossDomain = true;
-//   //   hash.xhrFields = {withCredentials: true};
-//   //   return this._super(url, method, hash);
-//   // }
-// });
+
+App.ApplicationAdapter = DS.RESTAdapter.extend({
+  host: 'http://localhost:42069'
+});
 
 App.Router.map(function(){
-  this.resource('pull-requests', function(){
-    this.resource('pull-request')
-  });
+  this.resource('pull-requests');
 });
 
 App.PullRequestsRoute = Ember.Route.extend({
   model: function() {
-    var url = 'https://stash.zipcar.com/rest/inbox/latest/pull-requests';
-    // var url = 'https://api.github.com/repos/emberjs/ember.js/pulls';
-    // return Ember.$.getJSON(url).then(function(data){
-    //   debugger;
-    //   return data;
-    // });
-    return $.ajax({
-      url: url,
-      dataType: 'json',
-      method: 'GET',
-      crossDomain: true,
-      xhrFields: {withCredentials: true},
-    }).then(function(data){
-      alert("SUCCESS!!");
-      return data;
-    }).fail(function(xhr, status, error) {
-      console.log(xhr);
-    });
+    return this.store.findAll('pullRequest');
   }
 });
 
-App.PullRequest = DS.Model.extend();
-
-// App.PullRequestAdapter = App.ApplicationAdapter.extend({
-//   // namespace: 'rest/inbox/latest',
-//   // pathForType: function(){
-//   //   return 'pull-requests';
-//   // },
-// });
+App.PullRequest = DS.Model.extend({
+  title: DS.attr('string'),
+  repository: DS.attr('string'),
+  link: DS.attr('string')
+});
 
 
 // Eventually can delete this

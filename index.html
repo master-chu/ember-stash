@@ -31,23 +31,38 @@
           <thead>
             <tr>
               <th>
-                Repository
+                id
               </th>
               <th>
                 Title
               </th>
               <th>
-                Author
-              </th>
-              <th>
-                Reviewers
+                Repository
               </th>
             </tr>
           </thead>
           <tbody>
-            Well, it didn't explode...
+            {{#each}}
+              {{partial "_review-row"}}
+            {{else}}
+              <em>Nothing to see here, folks.</em>
+            {{/each}}
           </tbody>
         </table>
+      </script>
+
+      <script type="text/x-handlebars" data-template-name="_review-row">
+        <tr>
+          <td>
+            {{id}}
+          </td>
+          <td>
+            <a href="{{link}}"> {{title}} </a>
+          </td>
+          <td>
+            {{repository}}
+          </td>
+        </tr>
       </script>
 
       <script type="text/x-handlebars" data-template-name="index">
