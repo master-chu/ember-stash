@@ -1,16 +1,20 @@
 var request = require('request'),
     app     = require('express')(),
-    _       = require('lodash');
+    _       = require('lodash'),
+    fs      = require('fs'),
+    atob    = require('atob');
 
 var stashHost = 'https://stash.zipcar.com';
-var apiPath = '/rest/inbox/latest/pull-requests?role=author';
-var encodedCredentials = 'Y2NodTpDUzEwMjRuaWNlbHk='; //Base64 encode cchu:<password>
+var apiPath = '/rest/inbox/latest/pull-requests?role=reviewer';
+var authString = fs.readFileSync('auth_string.txt').toString().trim();
 var options = {
   url: stashHost + "" + apiPath,
   headers: {
-    'Authorization': 'Basic ' + encodedCredentials
+    'Authorization': 'Basic ' + authString
   }
 };
+
+console.log('Logged in as ' + atob(authString).split(':')[0]);
 
 app.get('/pullRequests', function (req, res) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -43,4 +47,6 @@ function serializePullRequests(body){
   return serializedPullRequests;
 }
 
-app.listen(42069);
+var port = 42069;
+app.listen(port);
+console.log('Stash proxy started; Open index.html in your browser.');
