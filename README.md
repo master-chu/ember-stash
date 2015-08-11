@@ -15,7 +15,8 @@ If you have not yet logged in, you will be prompted to provide Stash credentials
 Once the server is running, you can directly open the `index.html` file in your browser. I personally added it to my browser's bookmarks toolbar for easy access.
 
 ## Why do i need the server though
-Good question! Normally, Stash allows for CORS requests through their REST API. However, it would appear in our installation, we do not have CORS enabled. So instead, we run a proxy that authenticates server-side. An added benefit of doing it this way is we can serialize the data into something Ember expects, which makes our example app a little more representative of a typical setup.
+Good question! Normally, Stash allows for CORS requests through their REST API.[2] However, it would appear in our installation, we do not have CORS enabled. So instead, we run a proxy that authenticates server-side. An added benefit of doing it this way is we can serialize the data into something Ember expects, which makes our example app a little more representative of a typical setup.
 
 ## References
 1. https://en.wikipedia.org/wiki/Fitts%27s_law
+2. https://developer.atlassian.com/static/rest/stash/3.11.1/stash-rest.html#authentication
