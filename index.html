@@ -25,6 +25,12 @@
         </div>
       </script>
 
+      <script type="text/x-handlebars" data-template-name="index">
+        {{message}}
+        <br/>
+        {{#link-to 'pull-requests'}}Go to my damn reviews already!{{/link-to}}
+      </script>
+
       <script type="text/x-handlebars" data-template-name="pull-requests">
         <h2 id="title">My Stash Pull Requests</h2>
         <table class="table table-striped">
@@ -49,6 +55,7 @@
             {{/each}}
           </tbody>
         </table>
+        {{#link-to "index"}}Back{{/link-to}}
       </script>
 
       <script type="text/x-handlebars" data-template-name="_review-row">
@@ -63,12 +70,6 @@
             {{repository}}
           </td>
         </tr>
-      </script>
-
-      <script type="text/x-handlebars" data-template-name="index">
-        This is a functioning ember app. This template should not appear normally.
-        <br/>
-        {{#link-to 'pull-requests'}}Go to my damn reviews already!{{/link-to}}
       </script>
     </body>
 </html>

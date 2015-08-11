@@ -20,10 +20,8 @@ App.PullRequest = DS.Model.extend({
   link: DS.attr('string')
 });
 
-
-// Eventually can delete this
 App.IndexController = Ember.Controller.extend({
-  message: 'Hello! See how index.hbs is evaluated in the context of IndexController' 
+  message: 'This index page is only here so you can see page transitions.'
 });
 
 
