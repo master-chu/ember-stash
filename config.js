@@ -1,7 +1,8 @@
 var prompt  = require('prompt'),
     btoa    = require('btoa'),
     atob    = require('atob'),
-    fs      = require('fs');
+    fs      = require('fs'),
+    colors  = require('colors');
 
 var authStringFile = './auth_string.txt';
 var serverCallback;
@@ -19,7 +20,6 @@ function initialize(callback){
   if (!authString){
     promptUserForStashCredentials();
   } else {
-    console.log('Found stash credentials for user ' + getUsername(authString) + '.');
     serverCallback(authString);
   }
 }
@@ -34,7 +34,7 @@ function readAuthString(){
 }
 
 function promptUserForStashCredentials(){
-  console.log('Please enter your credentials for stash.zipcar.com.');
+  console.log('Please enter your credentials for ' + 'stash.zipcar.com.'.yellow);
 
   prompt.start();
 
