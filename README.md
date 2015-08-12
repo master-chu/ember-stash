@@ -8,7 +8,7 @@ The real reason is to serve as an example ember app with some basic template ren
 ## Installation
 ```
 npm install
-./run.sh [-l] # -l will force a new login session
+./run.sh
 ```
 If you have not yet logged in, you will be prompted to provide Stash credentials (only the first time).
 
