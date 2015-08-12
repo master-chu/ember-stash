@@ -21,8 +21,8 @@ function runServer(authString){
       runServerAuthenticated(authString);
     } else {
       console.log('Login for user '.red + config.getUsername(authString).red + ' failed'.red);
-      console.log('Either there are network issues, or a user with this username and password doesn\'t exist');
-      console.log('To re-enter user credentials, do ' + './run.sh -l'.yellow);
+      console.log('Either there are network issues, or a user with this username and password doesn\'t exist'.yellow);
+      console.log('To login as a different user, do ./run.sh -l'.yellow);
       process.exit(1);
     }
   });
@@ -30,7 +30,7 @@ function runServer(authString){
 
 function runServerAuthenticated(authString){
   console.log('Logged in as Stash user '.green + config.getUsername(authString).green + '.'.green);
-  console.log('To re-enter user credentials, do ' + './run.sh -l'.yellow);
+  console.log('To login as a different user, do ./run.sh -l'.yellow);
 
   app.get('/', function (req, res){
     res.send('Hi! You probably misread the cli instructions. To access the app, just open index.html in your browser.');
