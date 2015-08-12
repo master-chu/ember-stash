@@ -1,4 +1,4 @@
-Stdashboard - A Better Stash Dashboard
+Stdashboard - A Better Stash Dashboard (working title)
 ===========
 
 According to wikipedia, Fitts’ law "predicts that the time required to rapidly move to a target area is a function of the ratio between the distance to the target and the width of the target."[1] The default Stash homepage requires a minimum of two clicks on small icons, as well as considerable mouse movement to reach both. This ember application is meant to serve as a more meaningful homepage for engineers so they can see their open reviews.
