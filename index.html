@@ -32,44 +32,43 @@
       </script>
 
       <script type="text/x-handlebars" data-template-name="pull-requests">
-        <h2 id="title">My Pull Requests</h2>
-        <h4> Created </h4>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>
-                id
-              </th>
-              <th>
-                Title
-              </th>
-              <th>
-                Repository
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each}}
-              {{partial "_review-row"}}
-            {{else}}
-              <em>Nothing to see here, folks.</em>
-            {{/each}}
-          </tbody>
-        </table>
+        <h2> My Pull Requests </h2>
+        <div class="container">
+          {{pull-requests-table pullRequests=this.created name="Created" classNames="col-md-6"}}
+          {{pull-requests-table pullRequests=this.reviewing name="Reviewing" classNames="col-md-6"}}
+        </div>
         {{#link-to "index"}}Back{{/link-to}}
       </script>
 
-      <script type="text/x-handlebars" data-template-name="_review-row">
+      <script type="text/x-handlebars" data-template-name="components/pull-requests-table">
+        <h4>{{name}}</h4>
+        {{#if pullRequests}}
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Role</th>
+                <th>Title</th>
+                <th>Repository</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each pullRequests}}
+                {{partial "_pull-request-row"}}
+              {{/each}}
+            </tbody>
+          </table> 
+        {{else}}
+          <em> Nothing to see here, folks... </em>
+        {{/if}}
+      </script>
+
+      <script type="text/x-handlebars" data-template-name="_pull-request-row">
         <tr>
-          <td>
-            {{id}}
-          </td>
-          <td>
-            <a href="{{link}}"> {{title}} </a>
-          </td>
-          <td>
-            {{repository}}
-          </td>
+          <td>{{id}}</td>
+          <td>{{role}}</td>
+          <td><a href="{{link}}"> {{title}} </a></td>
+          <td>{{repository}}</td>
         </tr>
       </script>
     </body>

@@ -5,27 +5,35 @@ var request = require('request'),
     config  = require('./config.js');
 
 var stashHost = 'https://stash.zipcar.com';
+var authHeaders;
+
 
 config.initialize(runServer);
 
 function runServer(authString){
+  authHeaders = {
+    'Authorization': 'Basic ' + authString
+  };
+
   var options = {
     url: stashHost + '/rest/api/latest/profile/recent/repos',
-    headers: {
-      'Authorization': 'Basic ' + authString
-    }
+    headers: authHeaders
   };
 
   request(options, function(error, response, body) {
     if (!error && response.statusCode == 200) {
       runServerAuthenticated(authString);
     } else {
-      console.log('Login for user '.red + config.getUsername(authString).red + ' failed'.red);
-      console.log('Either there are network issues, or a user with this username and password doesn\'t exist'.yellow);
-      console.log('To login as a different user, do ./run.sh -l'.yellow);
-      process.exit(1);
+      terminateServer(authString);
     }
   });
+}
+
+function terminateServer(){
+  console.log('Login for user '.red + config.getUsername(authString).red + ' failed'.red);
+  console.log('Either there are network issues, or a user with this username and password doesn\'t exist'.yellow);
+  console.log('To login as a different user, do ./run.sh -l'.yellow);
+  process.exit(1);
 }
 
 function runServerAuthenticated(authString){
@@ -40,16 +48,34 @@ function runServerAuthenticated(authString){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var options = {
-      url: stashHost + "" + '/rest/inbox/latest/pull-requests?role=reviewer',
-      headers: {
-        'Authorization': 'Basic ' + authString
-      }
+    var pullRequestsPath = '/rest/inbox/latest/pull-requests';
+
+    var createdOptions = {
+      url: stashHost + pullRequestsPath + '?role=author',
+      headers: authHeaders
+    };
+    var reviewingOptions = {
+      url: stashHost + pullRequestsPath + '?role=reviewer',
+      headers: authHeaders
     };
 
-    request(options, function(error, response, body) {
+    // has to make 2 separate requests because of limitation in stash rest api
+    request(createdOptions, function(error, response, body) {
       if (!error && response.statusCode == 200) {
-        res.send(serializePullRequests(body));
+        var created = serializePullRequests(body, 'author');
+
+        request(reviewingOptions, function(error, response, body) {
+          if (!error && response.statusCode == 200) {
+            var reviewing = serializePullRequests(body, 'reviewer');
+            var serializedPullRequestsWithRoot = {
+              pullRequests: created.concat(reviewing)
+            }
+            res.send(serializedPullRequestsWithRoot);
+          } else {
+            console.log('Fetching pull requests for '.red + config.getUsername(authString) + ' failed'.red);
+          }
+        });
+
       } else {
         console.log('Fetching pull requests for '.red + config.getUsername(authString) + ' failed'.red);
       }
@@ -62,18 +88,17 @@ function runServerAuthenticated(authString){
   console.log('To access the app, just open ' + 'index.html'.yellow + ' in your browser.');
 }
 
-function serializePullRequests(body){
+function serializePullRequests(body, role){
   var pullRequests = JSON.parse(body).values;
-  var serializedPullRequests = {
-    pullRequests: []
-  };
+  var serializedPullRequests = [];
 
   _.forEach(pullRequests, function(pullRequest){
-    serializedPullRequests.pullRequests.push({
+    serializedPullRequests.push({
       id: pullRequest.id,
       title: pullRequest.title,
       repository: pullRequest.fromRef.repository.name,
-      link: stashHost + "" + pullRequest.link.url
+      link: stashHost + "" + pullRequest.link.url,
+      role: role
     });    
   });
 
