@@ -2,7 +2,8 @@ var request = require('request'),
     app     = require('express')(),
     _       = require('lodash'),
     colors  = require('colors'),
-    config  = require('./config.js');
+    config  = require('./config.js'),
+    log     = require('./logger.js');
 
 var stashHost = 'https://stash.zipcar.com';
 var authHeaders;
@@ -21,24 +22,27 @@ function runServer(authString){
   };
 
   request(options, function(error, response, body) {
-    if (!error && response.statusCode == 200) {
+    var statusCode = response.statusCode || '';
+    var error = error || '';
+    if (!error && statusCode == 200) {
       runServerAuthenticated(authString);
     } else {
-      terminateServer(authString);
+      terminateServer(authString, error, statusCode);
     }
   });
 }
 
-function terminateServer(){
-  console.log('Login for user '.red + config.getUsername(authString).red + ' failed'.red);
+function terminateServer(authString, error, statusCode){
+  console.log(('Login for user ' + config.getUsername(authString) + ' failed' + ':').red);
+  console.log((error + ' (status code ' + statusCode.toString() + ')').red);
   console.log('Either there are network issues, or a user with this username and password doesn\'t exist'.yellow);
-  console.log('To login as a different user, do ./run.sh -l'.yellow);
+  log.warn('force_login_instructions');
   process.exit(1);
 }
 
 function runServerAuthenticated(authString){
-  console.log('Logged in as Stash user '.green + config.getUsername(authString).green + '.'.green);
-  console.log('To login as a different user, do ./run.sh -l'.yellow);
+  log.success('log_in_success', config.getUsername(authString));
+  log.warn('force_login_instructions');
 
   app.get('/', function (req, res){
     res.send('Hi! You probably misread the cli instructions. To access the app, just open index.html in your browser.');
@@ -48,14 +52,14 @@ function runServerAuthenticated(authString){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var pullRequestsPath = '/rest/inbox/latest/pull-requests';
+    var pullRequestsPath = '/rest/inbox/latest/pull-requests?avatarSize=48';
 
     var createdOptions = {
-      url: stashHost + pullRequestsPath + '?role=author',
+      url: stashHost + pullRequestsPath + '&role=author',
       headers: authHeaders
     };
     var reviewingOptions = {
-      url: stashHost + pullRequestsPath + '?role=reviewer',
+      url: stashHost + pullRequestsPath + '&role=reviewer',
       headers: authHeaders
     };
 
@@ -98,7 +102,9 @@ function serializePullRequests(body, role){
       title: pullRequest.title,
       repository: pullRequest.fromRef.repository.name,
       link: stashHost + "" + pullRequest.link.url,
-      role: role
+      role: role,
+      author: pullRequest.author.user.displayName,
+      authorAvatarUrl: stashHost + "" + pullRequest.author.user.avatarUrl
     });    
   });
 

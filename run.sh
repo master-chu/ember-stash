@@ -16,6 +16,7 @@ authstring="./auth_string.txt"
 if [ "$login" == "1" ] && [ -e  "$authstring" ]
 then
     echo "Forcing login with new user."
+    chmod 666 auth_string.txt
     rm auth_string.txt
 fi
 
