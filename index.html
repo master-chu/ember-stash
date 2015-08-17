@@ -16,6 +16,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.13.7/ember-data.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0-rc.3/handlebars.js"></script>
 
+        <link rel="stylesheet" href="app.css" />
         <script src="app.js"></script>
     </head>
     <body>
@@ -70,7 +71,7 @@
           <td>{{role}}</td>
           <td><a href="{{link}}"> {{title}} </a></td>
           <td>{{repository}}</td>
-          <td><img {{bind-attr src="authorAvatarUrl"}} /> {{author}}</td>
+          <td><img class="avatar" {{bind-attr src="authorAvatarUrl"}} /></td>
         </tr>
       </script>
     </body>
