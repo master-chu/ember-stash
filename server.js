@@ -36,9 +36,8 @@ function runServer(authString){
   });
 
   function terminateServer(error, statusCode){
-    console.log(('Login for user ' + username + ' failed' + ':').red);
-    console.log((error + ' (status code ' + statusCode.toString() + ')').red);
-    console.log('Either there are network issues, or a user with this username and password doesn\'t exist'.yellow);
+    log.error('log_in_failure', username, statusCode);
+    log.error('reason_for_login_failure');
     log.warn('force_login_instructions');
     process.exit(1);
   }
@@ -87,8 +86,8 @@ function runServer(authString){
 
     var port = 42069;
     app.listen(port);
-    console.log('Stash proxy started on http://localhost:' + port.toString() + '.');
-    console.log('To access the app, just open ' + 'index.html'.yellow + ' in your browser.');
+    log.notice('server_started_on_port', port.toString());
+    log.notice('to_access_app');
   }
 }
 

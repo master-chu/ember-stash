@@ -1,5 +1,6 @@
 Features I want in priority order:
 
+- (1) Finish "localization"
 - (1) Shrink author avatar
 - (3) For pull requests I'm reviewing, I want to see reviews that I approved but have since changed
 - (2) Support gravitar images
