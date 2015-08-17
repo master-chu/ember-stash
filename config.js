@@ -3,7 +3,7 @@ var prompt  = require('prompt'),
     atob    = require('atob'),
     fs      = require('fs'),
     colors  = require('colors'),
-    log     = require('./logger.js');
+    log     = require('./logger.js').logger;
 
 var authStringFile = './auth_string.txt';
 var serverCallback;
