@@ -103,35 +103,38 @@ function getSerializedPullRequests(body, role){
       repositoryAvatarUrl: stashHost + "" + pullRequest.fromRef.repository.project.avatarUrl,
       link: stashHost + "" + pullRequest.link.url,
       role: role,
-      author: {
-        id: pullRequest.author.user.id,
-        name: pullRequest.author.user.displayName,
-        avatarUrl: stashHost + "" + pullRequest.author.user.avatarUrl
-      },
+      author: getSerializedAuthor(),
       reviewers: getSerializedReviewers(),
       commentCount: pullRequest["attributes"].commentCount
     });
+
+    function getSerializedAuthor(){
+      return getSerializedUser(pullRequest.author.user);
+    }
 
     function getSerializedReviewers(){
       var serializedReviewers = [];
       //Todo: if _ supports it, can return result of map
       _.forEach(pullRequest.reviewers, function(reviewer){
-        var serializedReviewer = {
-          id: reviewer.user.id,
-          name: reviewer.user.displayName,
-          avatarUrl: getAvatarUrl()
-        }
-        serializedReviewers.push(serializedReviewer);
-
-        function getAvatarUrl(){
-          var url = reviewer.user.avatarUrl;
-          if(!_.includes(url, 'gravatar.com')) {
-            url = stashHost + "" + url;
-          }
-          return url;
-        }
+        serializedReviewers.push(getSerializedUser(reviewer.user));
       });
       return serializedReviewers;
+    }
+
+    function getSerializedUser(user){
+      return {
+        id: user.id,
+        name: user.displayName,
+        avatarUrl: getUserAvatarUrl()
+      };
+
+      function getUserAvatarUrl(){
+        var url = user.avatarUrl;
+        if(!_.includes(url, 'gravatar.com')) {
+          url = stashHost + "" + url;
+        }
+        return url;
+      }
     }
   });
 
