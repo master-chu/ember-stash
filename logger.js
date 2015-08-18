@@ -11,8 +11,9 @@ var templates = {
   'hi_wrong_page': 'Hi, %s! You probably misread the cli instructions. To access the app, just open index.html in your browser.',
   'log_in_failure': 'Login for user %s failed: statusCode %s',
   'reason_for_login_failure': 'Either there are network issues, or you typed your username or password incorrectly',
-  'server_started_on_port': 'Stash proxy started on http://localhost: %s',
-  'to_access_app': 'To access the app, just open ' + 'index.html'.yellow + ' in your browser.'
+  'server_started_on_port': 'Stash proxy started on http://localhost:%s',
+  'to_access_app': 'To access the app, just open ' + 'index.html'.yellow + ' in your browser.',
+  'key_does_not_exist': 'The message key you provided does not exist'
 };
 
 module.exports.logger = {
@@ -41,7 +42,6 @@ module.exports.messageLookup = function(key){
   return substituteArgsIntoTemplate(templateArgs);
 }
 
-
 function buildTemplateArgs(args){
   var templateArgs = [];
     _.forEach(args, function(val){
@@ -52,10 +52,18 @@ function buildTemplateArgs(args){
 }
 
 function log(key, color, templateArgs){
-  var template = templates[key][color];
+  var template = getTemplate(key, color);
   templateArgs.unshift(template); //adds to front of array
   var resultString = substituteArgsIntoTemplate(templateArgs);
   console.log(resultString);// don't delete this line
+};
+
+function getTemplate(key, color){
+  if (templates.hasOwnProperty(key)) {
+    return templates[key][color];
+  } else {
+    return templates['key_does_not_exist']['magenta'];
+  }
 };
 
 function substituteArgsIntoTemplate(templateArgs){

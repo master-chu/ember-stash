@@ -1,5 +1,8 @@
 Features I want in priority order:
 
-- (1) default translation lookup
+- (2) loading screen 
+    https://github.com/machty/ember-loading-error-substates-demo
+    http://guides.emberjs.com/v1.13.0/routing/loading-and-error-substates/
+    this.route('foobarbaz', function(){}); // YES loading/error
 - (3) For pull requests I'm reviewing, I want to see reviews that I approved but have since changed
 - (2) Support gravitar images
