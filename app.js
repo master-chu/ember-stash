@@ -29,10 +29,21 @@ App.PullRequest = DS.Model.extend({
   repositoryAvatarUrl: DS.attr('string'),
   link: DS.attr('string'),
   role: DS.attr('string'),
-  author: DS.attr('string'),
-  authorAvatarUrl: DS.attr('string'),
+  author: DS.belongsTo('user'),
   reviewerAvatarUrls: DS.attr(),
   commentCount: DS.attr('number')
+});
+
+App.PullRequestSerializer = DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin, {
+  attrs: {
+    author: { embedded: 'always' }
+  },
+  isNewSerializerAPI: true
+});
+
+App.User = DS.Model.extend({
+  name: DS.attr('string'),
+  avatarUrl: DS.attr('string')
 });
 
 App.IndexController = Ember.Controller.extend({

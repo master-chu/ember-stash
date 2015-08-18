@@ -103,8 +103,11 @@ function serializePullRequests(body, role){
       repositoryAvatarUrl: stashHost + "" + pullRequest.fromRef.repository.project.avatarUrl,
       link: stashHost + "" + pullRequest.link.url,
       role: role,
-      author: pullRequest.author.user.displayName,
-      authorAvatarUrl: stashHost + "" + pullRequest.author.user.avatarUrl,
+      author: {
+        id: pullRequest.author.user.id,
+        name: pullRequest.author.user.displayName,
+        avatarUrl: stashHost + "" + pullRequest.author.user.avatarUrl,
+      },
       reviewerAvatarUrls: getReviewerAvatarUrls(),
       commentCount: pullRequest["attributes"].commentCount
     });
