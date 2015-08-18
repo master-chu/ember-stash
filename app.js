@@ -23,9 +23,6 @@ App.PullRequestsRoute = Ember.Route.extend({
   }
 });
 
-App.PullRequestsTableComponent = Ember.Component.extend({
-});
-
 App.PullRequest = DS.Model.extend({
   title: DS.attr('string'),
   repository: DS.attr('string'),

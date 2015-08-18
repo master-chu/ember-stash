@@ -62,11 +62,11 @@ function runServer(authString){
       };
 
       // has to make 2 separate requests because of limitation in stash rest api
-      request(createdOptions, function(error, response, body) {
+      request(createdOptions, function getCreatedPullRequests(error, response, body) {
         if (!error && response.statusCode == 200) {
           var created = serializePullRequests(body, 'author');
 
-          request(reviewingOptions, function(error, response, body) {
+          request(reviewingOptions, function getReviewingPullRequests(error, response, body) {
             if (!error && response.statusCode == 200) {
               var reviewing = serializePullRequests(body, 'reviewer');
               var serializedPullRequestsWithRoot = {

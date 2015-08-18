@@ -5,37 +5,42 @@ var colors           = require('colors'),
 
 module.exports.logger = {
   notice: function(key){
-    var templateArgs = buildTemplateArgs(arguments);
-    log(key, 'white', templateArgs);
+    logWithColor(key, 'white');
   },
   success: function(key){
-    var templateArgs = buildTemplateArgs(arguments);
-    log(key, 'green', templateArgs);
+    logWithColor(key, 'green');
   },
   warn: function(key){
-    var templateArgs = buildTemplateArgs(arguments);
-    log(key, 'yellow', templateArgs);
+    logWithColor(key, 'yellow');
   },
   error: function(key){
-    var templateArgs = buildTemplateArgs(arguments);
-    log(key, 'red', templateArgs);
+    logWithColor(key, 'red');
   }
 };
+
+function logWithColor(key, color){
+  var templateArgs = normalizeTemplateArgs(arguments);
+  log(key, color, templateArgs);
+}
   
 module.exports.messageLookup = function(key){
-  var templateArgs = buildTemplateArgs(arguments);
+  var templateArgs = normalizeTemplateArgs(arguments);
   var template = messageTemplates[key];
   templateArgs.unshift(template);
   return substituteArgsIntoTemplate(templateArgs);
 }
 
-function buildTemplateArgs(args){
+function normalizeTemplateArgs(args){
   var templateArgs = [];
-    _.forEach(args, function(val){
-      templateArgs.push(val);
-    });
-  templateArgs.shift(); //removes key arg
+  _.forEach(args, function(val){
+    templateArgs.push(val);
+  });
+  removeKeyArg();
   return templateArgs;
+
+  function removeKeyArg(){
+    templateArgs.shift();
+  }
 }
 
 function log(key, color, templateArgs){
