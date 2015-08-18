@@ -10,3 +10,7 @@ img.user-avatar {
 img.repository-avatar {
   border-radius: 12px;
 }
+
+.comment-count {
+  color: #707070;
+}

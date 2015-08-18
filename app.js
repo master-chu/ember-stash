@@ -31,7 +31,8 @@ App.PullRequest = DS.Model.extend({
   role: DS.attr('string'),
   author: DS.attr('string'),
   authorAvatarUrl: DS.attr('string'),
-  reviewerAvatarUrls: DS.attr()
+  reviewerAvatarUrls: DS.attr(),
+  commentCount: DS.attr('number')
 });
 
 App.IndexController = Ember.Controller.extend({

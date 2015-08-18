@@ -50,7 +50,7 @@ function runServer(authString){
       res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-      var pullRequestsPath = '/rest/inbox/latest/pull-requests?avatarSize=48';
+      var pullRequestsPath = '/rest/inbox/latest/pull-requests?avatarSize=48&withAttributes=true';
 
       var createdOptions = {
         url: stashHost + pullRequestsPath + '&role=author',
@@ -105,7 +105,8 @@ function serializePullRequests(body, role){
       role: role,
       author: pullRequest.author.user.displayName,
       authorAvatarUrl: stashHost + "" + pullRequest.author.user.avatarUrl,
-      reviewerAvatarUrls: getReviewerAvatarUrls()
+      reviewerAvatarUrls: getReviewerAvatarUrls(),
+      commentCount: pullRequest["attributes"].commentCount
     });
 
     function getReviewerAvatarUrls(){
