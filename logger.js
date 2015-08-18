@@ -5,21 +5,21 @@ var colors           = require('colors'),
 
 module.exports.logger = {
   notice: function(key){
-    logWithColor(key, 'white');
+    logWithColor(key, 'white', arguments);
   },
   success: function(key){
-    logWithColor(key, 'green');
+    logWithColor(key, 'green', arguments);
   },
   warn: function(key){
-    logWithColor(key, 'yellow');
+    logWithColor(key, 'yellow', arguments);
   },
   error: function(key){
-    logWithColor(key, 'red');
+    logWithColor(key, 'red', arguments);
   }
 };
 
-function logWithColor(key, color){
-  var templateArgs = normalizeTemplateArgs(arguments);
+function logWithColor(key, color, args){
+  var templateArgs = normalizeTemplateArgs(args);
   log(key, color, templateArgs);
 }
   
