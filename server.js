@@ -64,11 +64,11 @@ function runServer(authString){
       // has to make 2 separate requests because of limitation in stash rest api
       request(createdOptions, function getCreatedPullRequests(error, response, body) {
         if (!error && response.statusCode == 200) {
-          var created = serializePullRequests(body, 'author');
+          var created = getSerializedPullRequests(body, 'author');
 
           request(reviewingOptions, function getReviewingPullRequests(error, response, body) {
             if (!error && response.statusCode == 200) {
-              var reviewing = serializePullRequests(body, 'reviewer');
+              var reviewing = getSerializedPullRequests(body, 'reviewer');
               var serializedPullRequestsWithRoot = {
                 pullRequests: created.concat(reviewing)
               }
@@ -91,7 +91,7 @@ function runServer(authString){
   }
 }
 
-function serializePullRequests(body, role){
+function getSerializedPullRequests(body, role){
   var pullRequests = JSON.parse(body).values;
   var serializedPullRequests = [];
 
@@ -106,27 +106,34 @@ function serializePullRequests(body, role){
       author: {
         id: pullRequest.author.user.id,
         name: pullRequest.author.user.displayName,
-        avatarUrl: stashHost + "" + pullRequest.author.user.avatarUrl,
+        avatarUrl: stashHost + "" + pullRequest.author.user.avatarUrl
       },
-      reviewerAvatarUrls: getReviewerAvatarUrls(),
+      reviewers: getSerializedReviewers(),
       commentCount: pullRequest["attributes"].commentCount
     });
 
-    function getReviewerAvatarUrls(){
-      var reviewerAvatarUrls = [];
+    function getSerializedReviewers(){
+      var serializedReviewers = [];
       //Todo: if _ supports it, can return result of map
       _.forEach(pullRequest.reviewers, function(reviewer){
-        var url = reviewer.user.avatarUrl;
-        if(!_.includes(url, 'gravatar.com')) {
-          url = stashHost + "" + url;
+        var serializedReviewer = {
+          id: reviewer.user.id,
+          name: reviewer.user.displayName,
+          avatarUrl: getAvatarUrl()
         }
-        reviewerAvatarUrls.push(url);
+        serializedReviewers.push(serializedReviewer);
+
+        function getAvatarUrl(){
+          var url = reviewer.user.avatarUrl;
+          if(!_.includes(url, 'gravatar.com')) {
+            url = stashHost + "" + url;
+          }
+          return url;
+        }
       });
-      return reviewerAvatarUrls;
+      return serializedReviewers;
     }
   });
-
-
 
   return serializedPullRequests;
 }

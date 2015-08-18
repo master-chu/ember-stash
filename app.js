@@ -30,13 +30,14 @@ App.PullRequest = DS.Model.extend({
   link: DS.attr('string'),
   role: DS.attr('string'),
   author: DS.belongsTo('user'),
-  reviewerAvatarUrls: DS.attr(),
+  reviewers: DS.hasMany('user'),
   commentCount: DS.attr('number')
 });
 
 App.PullRequestSerializer = DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin, {
   attrs: {
-    author: { embedded: 'always' }
+    author: { embedded: 'always' },
+    reviewers: { embedded: 'always' }
   },
   isNewSerializerAPI: true
 });

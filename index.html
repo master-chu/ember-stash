@@ -79,8 +79,8 @@
           <td><a href="{{link}}"> {{title}} </a></td>
           <td><img class="user-avatar" {{bind-attr src="author.avatarUrl"}} /></td>
           <td>
-            {{#each reviewerAvatarUrl in reviewerAvatarUrls}}
-              <img class="user-avatar" {{bind-attr src="reviewerAvatarUrl"}} />
+            {{#each reviewers}}
+              <img class="user-avatar" {{bind-attr src="avatarUrl"}} />
             {{else}}
               No reviewers for this review yet
             {{/each}}
