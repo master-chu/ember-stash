@@ -26,10 +26,12 @@ App.PullRequestsRoute = Ember.Route.extend({
 App.PullRequest = DS.Model.extend({
   title: DS.attr('string'),
   repository: DS.attr('string'),
+  repositoryAvatarUrl: DS.attr('string'),
   link: DS.attr('string'),
   role: DS.attr('string'),
   author: DS.attr('string'),
-  authorAvatarUrl: DS.attr('string')
+  authorAvatarUrl: DS.attr('string'),
+  reviewerAvatarUrls: DS.attr()
 });
 
 App.IndexController = Ember.Controller.extend({

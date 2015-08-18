@@ -52,11 +52,10 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>id</th>
-                <th>Role</th>
-                <th>Title</th>
                 <th>Repository</th>
+                <th>Title</th>
                 <th>Author</th>
+                <th>Reviewers</th>
               </tr>
             </thead>
             <tbody>
@@ -72,11 +71,19 @@
 
       <script type="text/x-handlebars" data-template-name="_pull-request-row">
         <tr>
-          <td>{{id}}</td>
-          <td>{{role}}</td>
+          <td>
+            <img class="repository-avatar" {{bind-attr src="repositoryAvatarUrl"}} />
+            {{repository}}
+          </td>
           <td><a href="{{link}}"> {{title}} </a></td>
-          <td>{{repository}}</td>
-          <td><img class="avatar" {{bind-attr src="authorAvatarUrl"}} /></td>
+          <td><img class="user-avatar" {{bind-attr src="authorAvatarUrl"}} /></td>
+          <td>
+            {{#each reviewerAvatarUrl in reviewerAvatarUrls}}
+              <img class="user-avatar" {{bind-attr src="reviewerAvatarUrl"}} />
+            {{else}}
+              No reviewers for this review yet
+            {{/each}}
+          </td>
         </tr>
       </script>
     </body>

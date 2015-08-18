@@ -1,5 +1,12 @@
-img.avatar {
+img.user-avatar, img.repository-avatar {
   max-width: 24px;
   max-height: 24px;
+}
+
+img.user-avatar {
   border-radius: 3px;
+}
+
+img.repository-avatar {
+  border-radius: 12px;
 }

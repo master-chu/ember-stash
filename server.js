@@ -100,12 +100,29 @@ function serializePullRequests(body, role){
       id: pullRequest.id,
       title: pullRequest.title,
       repository: pullRequest.fromRef.repository.name,
+      repositoryAvatarUrl: stashHost + "" + pullRequest.fromRef.repository.project.avatarUrl,
       link: stashHost + "" + pullRequest.link.url,
       role: role,
       author: pullRequest.author.user.displayName,
-      authorAvatarUrl: stashHost + "" + pullRequest.author.user.avatarUrl
-    });    
+      authorAvatarUrl: stashHost + "" + pullRequest.author.user.avatarUrl,
+      reviewerAvatarUrls: getReviewerAvatarUrls()
+    });
+
+    function getReviewerAvatarUrls(){
+      var reviewerAvatarUrls = [];
+      //Todo: if _ supports it, can return result of map
+      _.forEach(pullRequest.reviewers, function(reviewer){
+        var url = reviewer.user.avatarUrl;
+        if(!_.includes(url, 'gravatar.com')) {
+          url = stashHost + "" + url;
+        }
+        reviewerAvatarUrls.push(url);
+      });
+      return reviewerAvatarUrls;
+    }
   });
+
+
 
   return serializedPullRequests;
 }
