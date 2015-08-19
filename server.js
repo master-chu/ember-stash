@@ -50,38 +50,59 @@ function runServer(authString){
       res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-      var pullRequestsPath = '/rest/inbox/latest/pull-requests?avatarSize=48&withAttributes=true';
-
-      var createdOptions = {
-        url: stashHost + pullRequestsPath + '&role=author',
-        headers: authHeaders
-      };
-      var reviewingOptions = {
-        url: stashHost + pullRequestsPath + '&role=reviewer',
-        headers: authHeaders
-      };
-
-      // has to make 2 separate requests because of limitation in stash rest api
-      request(createdOptions, function getCreatedPullRequests(error, response, body) {
-        if (!error && response.statusCode == 200) {
-          var created = getSerializedPullRequests(body, 'author');
-
-          request(reviewingOptions, function getReviewingPullRequests(error, response, body) {
-            if (!error && response.statusCode == 200) {
-              var reviewing = getSerializedPullRequests(body, 'reviewer');
-              var serializedPullRequestsWithRoot = {
-                pullRequests: created.concat(reviewing)
-              }
-              res.send(serializedPullRequestsWithRoot);
-            } else {
-              log.error('fetch_failed', username);
-            }
-          });
-
-        } else {
-          log.error('fetch_failed', username);
+      var params = req.query;
+      if (params['repo'] === 'pooling-api') {
+        var pullRequestsPath = '/rest/api/1.0/projects/RAILS/repos/pooling-api/pull-requests';
+        var repoOptions = {
+          url: stashHost + pullRequestsPath + '&role=author',
+          headers: authHeaders  
         }
-      });
+
+        request(repoOptions, function getRepoPullRequests(error, response, body){
+          if (!error && response.statusCode == 200) {
+            var repoPullRequests = getSerializedPullRequests(body);
+            res.send(repoPullRequests);
+          } else {
+            log.error('fetch_failed', username);
+          }
+        });
+      }
+
+
+      else {
+        var pullRequestsPath = '/rest/inbox/latest/pull-requests?avatarSize=48&withAttributes=true';
+
+        var createdOptions = {
+          url: stashHost + pullRequestsPath + '&role=author',
+          headers: authHeaders
+        };
+        var reviewingOptions = {
+          url: stashHost + pullRequestsPath + '&role=reviewer',
+          headers: authHeaders
+        };
+
+        // has to make 2 separate requests because of limitation in stash rest api
+        request(createdOptions, function getCreatedPullRequests(error, response, body) {
+          if (!error && response.statusCode == 200) {
+            var created = getSerializedPullRequests(body, 'author');
+
+            request(reviewingOptions, function getReviewingPullRequests(error, response, body) {
+              if (!error && response.statusCode == 200) {
+                var reviewing = getSerializedPullRequests(body, 'reviewer');
+                var serializedPullRequestsWithRoot = {
+                  pullRequests: created.concat(reviewing)
+                }
+                res.send(serializedPullRequestsWithRoot);
+              } else {
+                log.error('fetch_failed', username);
+              }
+            });
+
+          } else {
+            log.error('fetch_failed', username);
+          }
+        });
+      }
     });
 
     var port = 42069;

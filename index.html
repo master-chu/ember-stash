@@ -23,12 +23,6 @@
       <script type="text/x-handlebars" data-template-name="application">
         <div class="container">
           {{outlet}}
-
-          <hr/>
-          <h2> pooling-api </h2>
-          <a href="https://stash.zipcar.com/projects/RAILS/repos/pooling-api/pull-requests">
-           all pooling-api pull requests
-          </a>
         </div>
 
       </script>
@@ -46,10 +40,12 @@
 
       <script type="text/x-handlebars" data-template-name="pull-requests">
         <h2> My Pull Requests </h2>
-        <div class="container">
+        <div class="row">
           {{pull-requests-table pullRequests=this.created name="Created" classNames="col-md-6"}}
           {{pull-requests-table pullRequests=this.reviewing name="Reviewing" classNames="col-md-6"}}
         </div>
+        <h2> Repositories </h2>
+        {{pull-requests-table pullRequests=this.poolingApi name="Pooling API"}}
         {{#link-to "index"}}Back{{/link-to}}
       </script>
 

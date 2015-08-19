@@ -14,7 +14,10 @@ App.PullRequestsController = Ember.ArrayController.extend({
   }.property('@each.role'),
   reviewing: function() {
     return this.filterBy('role', 'reviewer');
-  }.property('@each.role')
+  }.property('@each.role'),
+  poolingApi: function() {
+    return this.get('model', { repo: 'pooling-api'});
+  }.property()
 });
 
 App.PullRequestsRoute = Ember.Route.extend({
@@ -29,8 +32,8 @@ App.PullRequest = DS.Model.extend({
   repositoryAvatarUrl: DS.attr('string'),
   link: DS.attr('string'),
   role: DS.attr('string'),
-  author: DS.belongsTo('user'),
-  reviewers: DS.hasMany('user'),
+  author: DS.belongsTo('user', { async: false }),
+  reviewers: DS.hasMany('user', { async: false }),
   commentCount: DS.attr('number')
 });
 
