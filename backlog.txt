@@ -1,9 +1,14 @@
 Features I want in priority order:
 
 
+- (2) Get some defaults about repos (pooling pull requests)
+      Can reuse some of the components about pull request tables
+- (3) For pull requests I'm reviewing, I want to see reviews that I approved but have since changed
+- (2) Support gravitar images
+
+
+Finished (should add these to my bookmarks in a separate folder)
 - (2) loading screen 
     https://github.com/machty/ember-loading-error-substates-demo
     http://guides.emberjs.com/v1.13.0/routing/loading-and-error-substates/
     this.route('foobarbaz', function(){}); // YES loading/error
-- (3) For pull requests I'm reviewing, I want to see reviews that I approved but have since changed
-- (2) Support gravitar images
