@@ -51,14 +51,20 @@ function runServer(authString){
       res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
       var params = req.query;
-      if (params['repo'] === 'pooling-api') {
-        var pullRequestsPath = '/rest/api/1.0/projects/RAILS/repos/pooling-api/pull-requests';
+      if (params['repo']) {
+        sendPullRequestsByRepo(params['repo']);
+      }
+      else {
+        sendMyPullRequests(); 
+      }
+      
+      function sendPullRequestsByRepo(repo){
+        var pullRequestsPath = '/rest/api/1.0/projects/RAILS/repos/' + repo + '/pull-requests';
         var repoOptions = {
-          url: stashHost + pullRequestsPath + '&role=author',
+          url: stashHost + pullRequestsPath,
           headers: authHeaders  
         }
-
-        request(repoOptions, function getRepoPullRequests(error, response, body){
+        request(repoOptions, function getPullRequestsByRepo(error, response, body){
           if (!error && response.statusCode == 200) {
             var repoPullRequests = getSerializedPullRequests(body);
             res.send(repoPullRequests);
@@ -67,11 +73,8 @@ function runServer(authString){
           }
         });
       }
-
-
-      else {
+      function sendMyPullRequests(){
         var pullRequestsPath = '/rest/inbox/latest/pull-requests?avatarSize=48&withAttributes=true';
-
         var createdOptions = {
           url: stashHost + pullRequestsPath + '&role=author',
           headers: authHeaders
@@ -109,6 +112,8 @@ function runServer(authString){
     app.listen(port);
     log.notice('server_started_on_port', port.toString());
     log.notice('to_access_app');
+    
+
   }
 }
 
