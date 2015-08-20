@@ -57,7 +57,7 @@ function runServer(authString){
       else {
         sendMyPullRequests(); 
       }
-      
+
       function sendPullRequestsByRepo(repo){
         var pullRequestsPath = '/rest/api/1.0/projects/RAILS/repos/' + repo + '/pull-requests';
         var repoOptions = {
@@ -112,8 +112,6 @@ function runServer(authString){
     app.listen(port);
     log.notice('server_started_on_port', port.toString());
     log.notice('to_access_app');
-    
-
   }
 }
 
