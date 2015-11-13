@@ -50,34 +50,7 @@ App.User = DS.Model.extend({
   avatarUrl: DS.attr('string')
 });
 
-App.PullRequestsByRepoTableComponent = Ember.Component.extend({
-  repoNames: null,
-  selectedValue: null,
-
-  didInitAttrs(attrs) {
-    this._super(...arguments);
-    var repoNames = this.get('repoNames');
-
-    if (!repoNames) {
-      this.set('repoNames', []);
-    }
-  },
-
-  actions: {
-    getPullRequestsByRepo: function() {
-      var changeAction = this.get('action');
-      var selectedEl = this.$('select')[0];
-      var selectedIndex = selectedEl.selectedIndex;
-      var repoNames = this.get('repoNames');
-      var selectedValue = repoNames[selectedIndex];
-
-      this.set('selectedValue', selectedValue);
-      changeAction(selectedValue);
-    }
-  }
-});
-
-Ember.Handlebars.registerBoundHelper('is-equal', function(left, right) { 
+Ember.Handlebars.registerBoundHelper('is-equal', function(left, right) {
   return left === right;
 });
 
